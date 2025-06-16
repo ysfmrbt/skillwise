@@ -1,11 +1,12 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useEffect, ComponentType } from 'react';
+import { Loader2 } from 'lucide-react';
 
 // Loading component
 const LoadingSpinner = () => (
-	<div className='min-h-screen flex items-center justify-center'>
-		<div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
+	<div className='min-h-screen flex items-center justify-center bg-background'>
+		<Loader2 className='h-8 w-8 animate-spin text-primary' />
 	</div>
 );
 

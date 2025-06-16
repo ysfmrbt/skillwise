@@ -2,18 +2,24 @@ import { useAuth } from '@/contexts/AuthContext';
 import { withAuth } from '@/components/hoc/withAuth';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { 
-	Users, 
-	BookOpen, 
-	GraduationCap, 
-	Settings, 
+import {
+	Users,
+	BookOpen,
+	GraduationCap,
+	Settings,
 	LogOut,
 	PlusCircle,
 	BarChart3,
-	FolderOpen
+	FolderOpen,
 } from 'lucide-react';
 
 function DashboardPage() {
@@ -30,7 +36,11 @@ function DashboardPage() {
 
 	const getInitials = (name?: string, email?: string) => {
 		if (name) {
-			return name.split(' ').map(n => n[0]).join('').toUpperCase();
+			return name
+				.split(' ')
+				.map((n) => n[0])
+				.join('')
+				.toUpperCase();
 		}
 		if (email) {
 			return email.substring(0, 2).toUpperCase();
@@ -51,11 +61,13 @@ function DashboardPage() {
 									<CardTitle className='ml-2 text-lg'>Manage Users</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<CardDescription>View and manage all platform users</CardDescription>
+									<CardDescription>
+										View and manage all platform users
+									</CardDescription>
 								</CardContent>
 							</Link>
 						</Card>
-						
+
 						<Card className='hover:shadow-lg transition-shadow cursor-pointer'>
 							<Link href='/admin/courses'>
 								<CardHeader className='flex flex-row items-center space-y-0 pb-2'>
@@ -63,11 +75,13 @@ function DashboardPage() {
 									<CardTitle className='ml-2 text-lg'>Manage Courses</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<CardDescription>Oversee all courses and content</CardDescription>
+									<CardDescription>
+										Oversee all courses and content
+									</CardDescription>
 								</CardContent>
 							</Link>
 						</Card>
-						
+
 						<Card className='hover:shadow-lg transition-shadow cursor-pointer'>
 							<Link href='/admin/categories'>
 								<CardHeader className='flex flex-row items-center space-y-0 pb-2'>
@@ -91,11 +105,13 @@ function DashboardPage() {
 									<CardTitle className='ml-2 text-lg'>My Courses</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<CardDescription>Manage your courses and lessons</CardDescription>
+									<CardDescription>
+										Manage your courses and lessons
+									</CardDescription>
 								</CardContent>
 							</Link>
 						</Card>
-						
+
 						<Card className='hover:shadow-lg transition-shadow cursor-pointer'>
 							<Link href='/instructor/create-course'>
 								<CardHeader className='flex flex-row items-center space-y-0 pb-2'>
@@ -120,11 +136,13 @@ function DashboardPage() {
 									<CardTitle className='ml-2 text-lg'>Browse Courses</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<CardDescription>Discover and enroll in courses</CardDescription>
+									<CardDescription>
+										Discover and enroll in courses
+									</CardDescription>
 								</CardContent>
 							</Link>
 						</Card>
-						
+
 						<Card className='hover:shadow-lg transition-shadow cursor-pointer'>
 							<Link href='/my-courses'>
 								<CardHeader className='flex flex-row items-center space-y-0 pb-2'>
@@ -147,7 +165,9 @@ function DashboardPage() {
 			<header className='border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50'>
 				<div className='container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0'>
 					<div className='flex gap-6 md:gap-10'>
-						<Link href='/dashboard' className='flex items-center space-x-2'>
+						<Link
+							href='/dashboard'
+							className='flex items-center space-x-2'>
 							<GraduationCap className='h-6 w-6' />
 							<span className='font-bold text-xl'>SkillWise</span>
 						</Link>
@@ -163,16 +183,24 @@ function DashboardPage() {
 								<span className='text-sm font-medium leading-none'>
 									{user?.name || user?.email}
 								</span>
-								<Badge variant='secondary' className='w-fit mt-1'>
+								<Badge
+									variant='secondary'
+									className='w-fit mt-1'>
 									{user?.role}
 								</Badge>
 							</div>
-							<Button variant='ghost' size='sm' asChild>
+							<Button
+								variant='ghost'
+								size='sm'
+								asChild>
 								<Link href='/profile'>
 									<Settings className='h-4 w-4' />
 								</Link>
 							</Button>
-							<Button variant='ghost' size='sm' onClick={handleLogout}>
+							<Button
+								variant='ghost'
+								size='sm'
+								onClick={handleLogout}>
 								<LogOut className='h-4 w-4' />
 							</Button>
 						</nav>

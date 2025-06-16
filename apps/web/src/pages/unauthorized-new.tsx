@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { AlertTriangle, Home, ArrowLeft } from 'lucide-react';
 
 export default function UnauthorizedPage() {
@@ -20,13 +26,18 @@ export default function UnauthorizedPage() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent className='space-y-4'>
-					<Button asChild className='w-full'>
+					<Button
+						asChild
+						className='w-full'>
 						<Link href='/dashboard'>
 							<ArrowLeft className='mr-2 h-4 w-4' />
 							Go to Dashboard
 						</Link>
 					</Button>
-					<Button variant='outline' asChild className='w-full'>
+					<Button
+						variant='outline'
+						asChild
+						className='w-full'>
 						<Link href='/'>
 							<Home className='mr-2 h-4 w-4' />
 							Return to Home

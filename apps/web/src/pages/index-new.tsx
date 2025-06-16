@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { Loader2, BookOpen, Target, Trophy, GraduationCap } from 'lucide-react';
 
 export default function Home() {
@@ -23,7 +29,9 @@ export default function Home() {
 			{/* Navigation Header */}
 			<header className='border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50'>
 				<div className='container flex h-16 items-center justify-between'>
-					<Link href='/' className='flex items-center space-x-2'>
+					<Link
+						href='/'
+						className='flex items-center space-x-2'>
 						<GraduationCap className='h-6 w-6' />
 						<span className='font-bold text-xl'>SkillWise</span>
 					</Link>
@@ -39,7 +47,9 @@ export default function Home() {
 							</>
 						) : (
 							<>
-								<Button variant='ghost' asChild>
+								<Button
+									variant='ghost'
+									asChild>
 									<Link href='/auth/login'>Sign In</Link>
 								</Button>
 								<Button asChild>
@@ -65,19 +75,29 @@ export default function Home() {
 
 					{user ? (
 						<div className='flex justify-center gap-4'>
-							<Button size='lg' asChild>
+							<Button
+								size='lg'
+								asChild>
 								<Link href='/dashboard'>Go to Dashboard</Link>
 							</Button>
-							<Button size='lg' variant='outline' asChild>
+							<Button
+								size='lg'
+								variant='outline'
+								asChild>
 								<Link href='/courses'>Browse Courses</Link>
 							</Button>
 						</div>
 					) : (
 						<div className='flex justify-center gap-4'>
-							<Button size='lg' asChild>
+							<Button
+								size='lg'
+								asChild>
 								<Link href='/auth/register'>Get Started</Link>
 							</Button>
-							<Button size='lg' variant='outline' asChild>
+							<Button
+								size='lg'
+								variant='outline'
+								asChild>
 								<Link href='/auth/login'>Sign In</Link>
 							</Button>
 						</div>
@@ -127,11 +147,17 @@ export default function Home() {
 				{!user && (
 					<Card className='bg-primary text-primary-foreground'>
 						<CardContent className='text-center p-12'>
-							<h2 className='text-3xl font-bold mb-4'>Ready to Start Learning?</h2>
+							<h2 className='text-3xl font-bold mb-4'>
+								Ready to Start Learning?
+							</h2>
 							<p className='text-xl mb-6 opacity-90'>
-								Join thousands of learners advancing their careers with SkillWise
+								Join thousands of learners advancing their careers with
+								SkillWise
 							</p>
-							<Button size='lg' variant='secondary' asChild>
+							<Button
+								size='lg'
+								variant='secondary'
+								asChild>
 								<Link href='/auth/register'>Create Your Free Account</Link>
 							</Button>
 						</CardContent>

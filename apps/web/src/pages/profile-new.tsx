@@ -8,11 +8,24 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle, AlertCircle, Loader2, Settings, User } from 'lucide-react';
+import {
+	ArrowLeft,
+	CheckCircle,
+	AlertCircle,
+	Loader2,
+	Settings,
+	User,
+} from 'lucide-react';
 
 const profileSchema = z.object({
 	name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -52,9 +65,9 @@ function ProfilePage() {
 			// Refresh user data
 			await refreshUser();
 
-			setMessage({ 
-				type: 'success', 
-				text: 'Profile updated successfully!' 
+			setMessage({
+				type: 'success',
+				text: 'Profile updated successfully!',
 			});
 		} catch (error: any) {
 			setMessage({
@@ -71,7 +84,10 @@ function ProfilePage() {
 			{/* Navigation Header */}
 			<header className='border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50'>
 				<div className='container flex h-16 items-center space-x-4'>
-					<Button variant='ghost' size='sm' asChild>
+					<Button
+						variant='ghost'
+						size='sm'
+						asChild>
 						<Link href='/dashboard'>
 							<ArrowLeft className='h-4 w-4 mr-2' />
 							Back to Dashboard
@@ -103,10 +119,9 @@ function ProfilePage() {
 						</CardHeader>
 						<CardContent>
 							{message && (
-								<Alert 
+								<Alert
 									variant={message.type === 'error' ? 'destructive' : 'default'}
-									className='mb-6'
-								>
+									className='mb-6'>
 									{message.type === 'success' ? (
 										<CheckCircle className='h-4 w-4' />
 									) : (
@@ -116,7 +131,9 @@ function ProfilePage() {
 								</Alert>
 							)}
 
-							<form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+							<form
+								onSubmit={handleSubmit(onSubmit)}
+								className='space-y-6'>
 								<div className='space-y-2'>
 									<Label htmlFor='name'>Full Name</Label>
 									<Input
@@ -127,7 +144,9 @@ function ProfilePage() {
 										aria-invalid={errors.name ? 'true' : 'false'}
 									/>
 									{errors.name && (
-										<p className='text-sm text-destructive'>{errors.name.message}</p>
+										<p className='text-sm text-destructive'>
+											{errors.name.message}
+										</p>
 									)}
 								</div>
 
@@ -141,7 +160,9 @@ function ProfilePage() {
 										aria-invalid={errors.email ? 'true' : 'false'}
 									/>
 									{errors.email && (
-										<p className='text-sm text-destructive'>{errors.email.message}</p>
+										<p className='text-sm text-destructive'>
+											{errors.email.message}
+										</p>
 									)}
 								</div>
 
@@ -159,8 +180,7 @@ function ProfilePage() {
 									<Button
 										type='submit'
 										disabled={isLoading}
-										className='w-full sm:w-auto'
-									>
+										className='w-full sm:w-auto'>
 										{isLoading ? (
 											<>
 												<Loader2 className='mr-2 h-4 w-4 animate-spin' />

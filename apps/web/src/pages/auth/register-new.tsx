@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNotification } from '@/contexts/NotificationContext';
 import { withGuest } from '@/components/hoc/withAuth';
 import { registerSchema, RegisterFormData } from '@/lib/validations/auth';
 import { Button } from '@/components/ui/button';
@@ -16,12 +15,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 function RegisterPage() {
 	const { register: registerUser } = useAuth();
-	const notification = useNotification();
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
 	const {
 		register,
@@ -34,17 +34,11 @@ function RegisterPage() {
 	const onSubmit = async (data: RegisterFormData) => {
 		try {
 			setIsLoading(true);
+			setError(null);
 			await registerUser(data.email, data.password, data.name);
-			notification.success(
-				'Account created!',
-				'Welcome to SkillWise. You can now start learning.',
-			);
 			// AuthContext will handle redirect automatically
 		} catch (err: any) {
-			notification.error(
-				'Registration failed',
-				err.message || 'An error occurred during registration.',
-			);
+			setError(err.message);
 		} finally {
 			setIsLoading(false);
 		}
@@ -70,6 +64,13 @@ function RegisterPage() {
 					<form
 						onSubmit={handleSubmit(onSubmit)}
 						className='space-y-4'>
+						{error && (
+							<Alert variant='destructive'>
+								<AlertCircle className='h-4 w-4' />
+								<AlertDescription>{error}</AlertDescription>
+							</Alert>
+						)}
+
 						<div className='space-y-2'>
 							<Label htmlFor='name'>Full Name</Label>
 							<Input
