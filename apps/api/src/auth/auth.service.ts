@@ -30,6 +30,12 @@ export class AuthService {
     return {
       message: 'Login successful',
       accessToken: await this.jwtService.signAsync(payload),
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     };
   }
 
@@ -53,6 +59,12 @@ export class AuthService {
     return {
       message: 'User registered successfully',
       accessToken: await this.jwtService.signAsync(payload),
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        role: newUser.role,
+      },
     };
   }
 }
