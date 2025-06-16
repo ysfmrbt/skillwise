@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+model User {
+  id         String       @id @default(cuid())
+  email      String       @unique
+  password   String
+  name       String
+  role       UserRole     @default(STUDENT) // Possible values: STUDENT, INSTRUCTOR, ADMIN, SUPER_ADMIN
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Course     Course[]
+  Enrollment Enrollment[]
+  Feedback   Feedback[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courses   Course[]
+
+  @@map("categories")
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Course {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  instructorId String
+  instructor   User         @relation(fields: [instructorId], references: [id])
+  categoryId   String
+  category     Category     @relation(fields: [categoryId], references: [id])
+  status       CourseStatus @default(DRAFT) // Possible values: DRAFT, PUBLISHED, ARCHIVED
+  Lesson       Lesson[]
+  Enrollment   Enrollment[]
+  Feedback     Feedback[]
+
+  @@map("courses")
+}
+
+enum LessonType {
+  VIDEO
+  ARTICLE
+  QUIZ
+}
+
+model Lesson {
+  id        String     @id @default(cuid())
+  title     String
+  content   String?
+  type      LessonType @default(VIDEO) // Possible values: VIDEO, ARTICLE, QUIZ
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  courseId  String
+  course    Course     @relation(fields: [courseId], references: [id])
+
+  @@map("lessons")
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  studentId String
+  courseId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   User     @relation(fields: [studentId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId]) // Ensure a student can enroll in a course only once
+  @@map("enrollments")
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  studentId String
+  courseId  String
+  rating    Int // Rating out of 5
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   User     @relation(fields: [studentId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@map("feedbacks")
+}

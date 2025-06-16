@@ -1,0 +1,49 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { RegisterDto } from './dto/register.dto';
+import { SignInDto } from './dto/signIn.dto';
+@Injectable()
+export class AuthService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
+  async signIn(signInDto: SignInDto) {
+    const { email, password } = signInDto;
+    const user = await this.usersService.user({ email });
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user?.password || '',
+    );
+    if (!user || !isValidPassword) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const payload = { email: user.email, sub: user.id };
+
+    return {
+      message: 'Login successful',
+      accessToken: await this.jwtService.signAsync(payload),
+    };
+  }
+
+  async register(registerDto: RegisterDto) {
+    const { email, password, name } = registerDto;
+
+    const existingUser = await this.usersService.user({ email });
+    if (existingUser) {
+      throw new UnauthorizedException('User already exists');
+    }
+    const newUser = await this.usersService.createUser({
+      email,
+      password: await bcrypt.hash(password, 10),
+      name,
+    });
+    const payload = { email: newUser.email, sub: newUser.id };
+    return {
+      message: 'User registered successfully',
+      accessToken: await this.jwtService.signAsync(payload),
+    };
+  }
+}
