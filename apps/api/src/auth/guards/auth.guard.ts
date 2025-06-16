@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants';
 import { Request } from 'express';
+import { JwtPayload } from '../interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,7 +20,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('No token provided');
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload: JwtPayload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
       request['user'] = payload; // Attach user info to request
