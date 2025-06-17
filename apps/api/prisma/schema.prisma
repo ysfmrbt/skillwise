@@ -22,16 +22,17 @@ enum UserRole {
 }
 
 model User {
-  id         String       @id @default(cuid())
-  email      String       @unique
-  password   String
-  name       String
-  role       UserRole     @default(STUDENT) // Possible values: STUDENT, INSTRUCTOR, ADMIN, SUPER_ADMIN
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Course     Course[]
-  Enrollment Enrollment[]
-  Feedback   Feedback[]
+  id           String         @id @default(cuid())
+  email        String         @unique
+  password     String
+  name         String
+  role         UserRole       @default(STUDENT) // Possible values: STUDENT, INSTRUCTOR, ADMIN, SUPER_ADMIN
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Course       Course[]
+  Enrollment   Enrollment[]
+  Feedback     Feedback[]
+  RefreshToken RefreshToken[]
 
   @@map("users")
 }
@@ -114,4 +115,16 @@ model Feedback {
   course    Course   @relation(fields: [courseId], references: [id])
 
   @@map("feedbacks")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique // Stored as a hashed value
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
 }
